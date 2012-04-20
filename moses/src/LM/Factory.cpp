@@ -38,6 +38,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #  include "LM/Rand.h"
 #endif
 
+#ifdef LM_SHEF
+#  include "LM/Shef.h"
+#endif
 #include "LM/ORLM.h"
 
 #ifdef LM_REMOTE
@@ -86,7 +89,11 @@ LanguageModel* CreateLanguageModel(LMImplementation lmImplementation
     lm = new LanguageModelRemote();
 #endif
     break;
-
+      case ShefLM:
+#ifdef LM_SHEF
+          lm = NewShefLM();
+#endif
+          break;  
   case SRI:
 #ifdef LM_SRI
     lm = new LanguageModelSRI();

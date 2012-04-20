@@ -65,6 +65,18 @@ if $(with-ldhtlm) {
   dependencies += ldht ;
 }
 
+#ShefLM
+local with-sheflm = [ option.get "with-sheflm" ] ;
+if $(with-sheflm) {
+  lib sheflm : : <search>$(with-sheflm)/dist ;
+  lib boost_serialization ;
+	lib boost_iostreams ;
+  obj Shef.o : Shef.cpp sheflm ..//headers : <include>$(with-sheflm)/src <include>$(with-sheflm)/src/cmph_0_9 ;
+  alias shef : Shef.o : : : <define>LM_SHEF ;
+  dependencies += shef ;
+}
+
+
 #ORLM is always compiled but needs special headers
 obj ORLM.o : ORLM.cpp ..//headers ../DynSAInclude//dynsa : : : <include>../DynSAInclude ;
 
