@@ -68,11 +68,10 @@ if $(with-ldhtlm) {
 #ShefLM
 local with-sheflm = [ option.get "with-sheflm" ] ;
 if $(with-sheflm) {
-  lib sheflm : : <search>$(with-sheflm)/dist ;
-  lib boost_serialization ;
-	lib boost_iostreams ;
+  lib cmph : : <search>$(with-sheflm)/dist [ auto_shared cmph : "-L"$(with-sheflm)/dist ] ;
+  lib sheflm : cmph ../../..//boost_serialization ../../..//boost_iostreams : <search>$(with-sheflm)/dist [ auto_shared sheflm : "-L"$(with-sheflm)/dist ] ;
   obj Shef.o : Shef.cpp sheflm ..//headers : <include>$(with-sheflm)/src <include>$(with-sheflm)/src/cmph_0_9 ;
-  alias shef : Shef.o : : : <define>LM_SHEF ;
+  alias shef : Shef.o sheflm cmph : : : <define>LM_SHEF ;
   dependencies += shef ;
 }
 
